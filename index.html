@@ -78,11 +78,6 @@ footer{background:var(--accent);color:#1a0a02;padding:calc(var(--base)*12) calc(
 .footer-col a{display:block;color:#1a0a02;text-decoration:none;font-size:15px;margin-bottom:10px;opacity:0.85;transition:opacity .25s ease;}
 .footer-col a:hover{opacity:1;text-decoration:underline;}
 .footer-bottom{display:flex;justify-content:space-between;padding-top:calc(var(--base)*6);border-top:1px solid rgba(26,10,2,0.2);font-size:12px;opacity:0.7;flex-wrap:wrap;gap:10px;}
-#loader{position:fixed;inset:0;background:#000;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
-#loader .brand-mark{font-family:Georgia,serif;font-size:28px;letter-spacing:0.05em;color:#fff;text-transform:uppercase;}
-.loader-bar{width:220px;height:2px;background:rgba(255,255,255,0.15);overflow:hidden;}
-.loader-bar-fill{width:0%;height:100%;background:var(--accent);}
-.loader-pct{font-size:11px;letter-spacing:0.2em;color:var(--text-muted);}
 @media (max-width:900px){
   .story{flex-direction:column!important;text-align:center;}
   .story-text{max-width:100%;}
@@ -170,16 +165,56 @@ footer.is-dark .footer-bottom{border-top-color:rgba(242,239,232,.2);}
 .masked-text{position:relative;z-index:2;font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(4rem,15vw,12rem);color:#fff;mix-blend-mode:difference;letter-spacing:-0.03em;line-height:.92;text-align:center;text-transform:uppercase;will-change:transform;transform:scale(3);opacity:0;}
 .masked-text em{display:block;font-weight:400;font-size:.3em;text-transform:none;letter-spacing:-0.01em;margin-top:.18em;}
 
+/* ===== PRELOADER ===== */
+#loader{position:fixed;inset:0;background:#050505;z-index:1000;overflow:hidden;color:#f2efe8;will-change:transform;display:block;}
+html.pl-lock,html.pl-lock body{overflow:hidden;}
+#loader .pl-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;gap:16px;padding:calc(var(--base)*5) calc(var(--base)*7);font:600 11px/1 'Inter','Helvetica Neue',Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;z-index:4;opacity:0;transform:translateY(-12px);transition:opacity .8s ease .15s,transform .9s cubic-bezier(.16,1,.3,1) .15s;}
+#loader.in .pl-top{opacity:1;transform:none;}
+#loader .pl-video{position:absolute;inset:0;z-index:1;clip-path:inset(50% 50% 50% 50%);}
+#loader .pl-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000;}
+#loader .pl-words{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;padding:0 4vw;font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(2.8rem,10.5vw,9.5rem);text-transform:uppercase;letter-spacing:-.03em;line-height:.9;text-align:center;color:#fff;mix-blend-mode:difference;pointer-events:none;white-space:nowrap;}
+#loader .pl-bottom{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;padding:calc(var(--base)*5) calc(var(--base)*7);z-index:4;transition:transform .9s cubic-bezier(.7,0,.2,1),opacity .6s ease;}
+#loader.out .pl-bottom{transform:translateY(120%);opacity:0;}
+#loader .pl-count{display:flex;align-items:flex-end;font-family:Georgia,'Times New Roman',serif;font-size:clamp(5rem,17vw,15rem);line-height:1;letter-spacing:-.05em;margin-bottom:-.12em;color:#fff;mix-blend-mode:difference;}
+#loader .pl-digit{display:block;height:1em;width:.6em;overflow:hidden;position:relative;}
+#loader .pl-strip{display:block;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;}
+#loader .pl-strip i{display:block;height:1em;line-height:1;font-style:normal;}
+#loader .pl-pct{font-size:.22em;line-height:1;margin:0 0 .25em .35em;letter-spacing:0;}
+#loader .pl-label{font:600 11px/1.6 'Inter','Helvetica Neue',Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;text-align:right;color:#f2efe8;mix-blend-mode:difference;}
+#loader .pl-label b{display:block;font-weight:600;opacity:.55;}
+@media (max-width:700px){#loader .pl-top span:last-child{display:none;}}
+
+/* ===== FOLD MARQUEE (brand interlude) ===== */
+section#fold{display:block;padding:0;min-height:0;background:#000;--step-0:clamp(4.5rem,1.64rem + 4.29vw,10rem);}
+#fold .fold-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-weight:600;}
+#fold .marquee{border-bottom:1px solid #000;color:#1d1e22;font-size:var(--step-0);font-weight:700;height:calc(170px + 4rem);overflow:hidden;position:relative;width:100vw;}
+#fold .track{height:100%;overflow:hidden;padding:2rem 0;position:absolute;white-space:nowrap;will-change:transform;}
+#fold .-focus{color:#deb066;font-weight:900;}
+#fold .wrapper-3d{position:relative;perspective:9vw;transform-style:preserve-3d;}
+#fold .fold{overflow:hidden;width:100vw;height:80vh;}
+#fold .fold-top{position:absolute;transform-origin:bottom center;left:0;right:0;bottom:100%;transform:rotateX(-120deg);}
+#fold .fold-center{width:100vw;}
+#fold .fold-bottom{position:absolute;transform-origin:top center;right:0;left:0;top:100%;transform:rotateX(120deg);}
+#fold .fold-align{width:100%;height:100%;}
+#fold .fold-bottom .fold-align{transform:translateY(-100%);}
+#fold .fold-top .fold-align{transform:translateY(100%);}
+#fold .fold-content{will-change:transform;}
+
+section#fold{height:340vh;}
 </style>
 </head>
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><pattern id="poleStripes" width="56" height="56" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="28" height="56" fill="#f2efe8"/><rect x="28" width="28" height="56" fill="#0c0c0c"/></pattern></defs></svg>
 
-<div id="loader">
-  <div class="brand-mark">King's Barbershop</div>
-  <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
-  <div class="loader-pct" id="loaderPct">0%</div>
+<div id="loader" aria-label="Loading King's Barbershop">
+  <div class="pl-top"><span>King's Barbershop</span><span>Mission Valley, San Diego</span></div>
+  <div class="pl-video"><video muted loop playsinline autoplay preload="auto"></video></div>
+  <div class="pl-words" aria-hidden="true"></div>
+  <div class="pl-bottom">
+    <div class="pl-count" id="plCount" aria-live="off"><span class="pl-digit"><span class="pl-strip"></span></span><span class="pl-digit"><span class="pl-strip"></span></span><span class="pl-digit"><span class="pl-strip"></span></span><span class="pl-pct">%</span></div>
+    <div class="pl-label">Loading<b>Please wait</b></div>
+  </div>
 </div>
 
 <canvas id="gl-stage"></canvas>
@@ -327,6 +362,102 @@ footer.is-dark .footer-bottom{border-top-color:rgba(242,239,232,.2);}
   </section>
 
   <div class="divider"><i class="pole-strip"></i></div>
+
+<section id="fold" aria-label="King's Barbershop in San Diego">
+<div class="fold-stick" id="fold-effect">
+	<div class="wrapper-3d">
+		<div class="fold fold-top">
+			<div class="fold-align">
+				<div class="fold-content">
+					<div class="marquee">
+						<div class="track">
+							×KING'S×KING'S×KING'S×KING'S×<span class="-focus">KING'S</span>×KING'S×KING'S×KING'S×KING'S×KING'S×KING'S×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+							×BARBERSHOP×<span class="-focus">BARBERSHOP</span>×BARBERSHOP×BARBERSHOP×BARBERSHOP×BARBERSHOP×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+×IN×IN×IN×IN×IN×IN×IN×IN×IN×<span class="-focus">IN</span>×IN×IN×IN×IN×IN×IN×IN×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+							×SAN DIEGO×<span class="-focus">SAN DIEGO</span>×SAN DIEGO×SAN DIEGO×SAN DIEGO×
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="fold fold-center" id="center-fold">
+			<div class="fold-align">
+				<div class="fold-content" id="center-content">
+					<div class="marquee">
+						<div class="track">
+							×KING'S×KING'S×KING'S×KING'S×<span class="-focus">KING'S</span>×KING'S×KING'S×KING'S×KING'S×KING'S×KING'S×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+							×BARBERSHOP×<span class="-focus">BARBERSHOP</span>×BARBERSHOP×BARBERSHOP×BARBERSHOP×BARBERSHOP×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+														×IN×IN×IN×IN×IN×IN×IN×IN×IN×<span class="-focus">IN</span>×IN×IN×IN×IN×IN×IN×IN×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+														×SAN DIEGO×<span class="-focus">SAN DIEGO</span>×SAN DIEGO×SAN DIEGO×SAN DIEGO×
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="fold fold-bottom">
+			<div class="fold-align">
+				<div class="fold-content">
+					<div class="marquee">
+						<div class="track">
+							×KING'S×KING'S×KING'S×KING'S×<span class="-focus">KING'S</span>×KING'S×KING'S×KING'S×KING'S×KING'S×KING'S×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+							×BARBERSHOP×<span class="-focus">BARBERSHOP</span>×BARBERSHOP×BARBERSHOP×BARBERSHOP×BARBERSHOP×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+														×IN×IN×IN×IN×IN×IN×IN×IN×IN×<span class="-focus">IN</span>×IN×IN×IN×IN×IN×IN×IN×
+						</div>
+					</div>
+
+					<div class="marquee">
+						<div class="track">
+														×SAN DIEGO×<span class="-focus">SAN DIEGO</span>×SAN DIEGO×SAN DIEGO×SAN DIEGO×
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+
+<div class="divider"><i class="pole-strip"></i></div>
 
   <section id="gallery" aria-label="The craft, in motion">
     <div class="masked-section">
@@ -632,24 +763,9 @@ function createShaderBackground(canvas){
 
 /* ============ LOADER ============ */
 const loader = document.getElementById('loader');
-const loaderFill = document.getElementById('loaderFill');
-const loaderPct = document.getElementById('loaderPct');
-let fakeProgress = 0;
-const loaderInterval = setInterval(()=>{
-  fakeProgress += Math.random()*18;
-  if(fakeProgress >= 100){
-    fakeProgress = 100; clearInterval(loaderInterval);
-    gsap.to(loaderFill,{width:'100%',duration:0.3});
-    loaderPct.textContent = '100%';
-    setTimeout(hideLoader,350);
-  }else{
-    loaderFill.style.width = fakeProgress+'%';
-    loaderPct.textContent = Math.floor(fakeProgress)+'%';
-  }
-},180);
-function hideLoader(){
-  gsap.to(loader,{opacity:0,duration:0.8,ease:'power2.inOut',onComplete:()=>{ loader.style.display='none'; playHeroIntro(); }});
-}
+function hideLoader(){ gsap.to(loader,{opacity:0,duration:0.8,ease:'power2.inOut',onComplete:()=>{ loader.style.display='none'; document.documentElement.classList.remove('pl-lock'); playHeroIntro(); }}); }
+/* the preloader script at the end of the page runs the real sequence; this only fires if that never starts */
+window.__loaderFallback = setTimeout(hideLoader, 12000);
 
 /* ============ LENIS ============ */
 const lenis = new Lenis({ lerp:0.07, smoothWheel:true, wheelMultiplier:0.9, touchMultiplier:1.5 });
@@ -1399,6 +1515,160 @@ if(typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined'){
 }else{
   mask.style.clipPath='inset(0% 0% 0% 0%)'; textEl.style.transform='none'; textEl.style.opacity='1';
 }
+})();
+
+</script>
+<script>
+(function(){
+'use strict';
+var sec=document.getElementById('fold'); if(!sec) return;
+var stick=sec.querySelector('.fold-stick');
+var centerContent=document.getElementById('center-content'), centerFold=document.getElementById('center-fold');
+var contents=[].slice.call(sec.querySelectorAll('.fold-content'));
+var marquees=[].slice.call(sec.querySelectorAll('.marquee')).map(function(el,i){
+  var r=(i%2===0)?[-500,-1500]:[-500,0];                    /* same travel as the original: even rows slide left, odd rows slide right */
+  return {track:el.querySelector('.track'),a:r[0],b:r[1]};
+});
+var overflow=0, spanPx=0, visible=false, cur=0, tgt=0, h=0, raf=0, hLast=-1;
+function measure(){
+  h=window.innerHeight;
+  overflow=Math.max(0,centerContent.scrollHeight-centerFold.clientHeight);
+  spanPx=Math.max(overflow+h*0.6,h*2.2);                    /* how long the section stays pinned while the folds scroll */
+  sec.style.height=(h+spanPx)+'px';
+}
+function progress(){
+  var r=sec.getBoundingClientRect();
+  var pin=Math.min(1,Math.max(0,-r.top/spanPx));            /* 0..1 while pinned */
+  var pass=Math.min(1,Math.max(0,(h-r.top)/(h+r.height))); /* 0..1 across the whole pass, drives the sideways marquee */
+  return {pin:pin,pass:pass};
+}
+function frame(){
+  raf=0; if(!visible) return;
+  var p=progress(); tgt=-p.pin*overflow;
+  cur+=(tgt-cur)*0.09;                                      /* soft follow, like the original */
+  var ty='translate3d(0,'+cur.toFixed(2)+'px,0)';
+  for(var i=0;i<contents.length;i++) contents[i].style.transform=ty;
+  for(var j=0;j<marquees.length;j++){ var m=marquees[j]; m.track.style.transform='translate3d('+(m.a+(m.b-m.a)*p.pass).toFixed(1)+'px,0,0)'; }
+  raf=requestAnimationFrame(frame);
+}
+measure();
+try{ ScrollTrigger.refresh(); }catch(e){}
+window.addEventListener('load',function(){ measure(); try{ScrollTrigger.refresh();}catch(e){} });
+window.addEventListener('resize',function(){ measure(); try{ScrollTrigger.refresh();}catch(e){} });
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ measure(); try{ScrollTrigger.refresh();}catch(e){} });
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){ visible=es[0].isIntersecting; if(visible&&!raf) raf=requestAnimationFrame(frame); },{rootMargin:'100px 0px'}).observe(sec);
+}else{ visible=true; raf=requestAnimationFrame(frame); }
+})();
+
+</script>
+<script>
+(function(){
+'use strict';
+var L=document.getElementById('loader'); if(!L) return;
+if(window.__loaderFallback) clearTimeout(window.__loaderFallback);
+var html=document.documentElement; html.classList.add('pl-lock');
+try{ if(typeof lenis!=='undefined') lenis.stop(); }catch(e){}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+var vwrap=L.querySelector('.pl-video'), vid=vwrap.querySelector('video'), wordsEl=L.querySelector('.pl-words');
+var strips=[].slice.call(L.querySelectorAll('.pl-strip'));
+strips.forEach(function(s){ var h=''; for(var i=0;i<10;i++) h+='<i>'+i+'</i>'; s.innerHTML=h; });
+
+/* the clip that plays in the window: set LOADER_CLIP_WEBM to swap it, otherwise the hero logo loop is used */
+var clip=(typeof LOADER_CLIP_WEBM==='string'&&LOADER_CLIP_WEBM)?LOADER_CLIP_WEBM:(typeof HERO_LOGO_WEBM==='string'?HERO_LOGO_WEBM:'');
+if(clip){
+  try{
+    var bin=atob(clip), u8=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
+    vid.src=URL.createObjectURL(new Blob([u8],{type:'video/webm'}));
+  }catch(e){ vid.src='data:video/webm;base64,'+clip; }
+  vid.addEventListener('error',function(){ if(vid.src.indexOf('data:')!==0) vid.src='data:video/webm;base64,'+clip; });
+  vid.muted=true; var pp=vid.play(); if(pp&&pp.catch) pp.catch(function(){});
+}
+
+/* helpers */
+function ease(t){ return t<0.5?16*t*t*t*t*t:1-Math.pow(-2*t+2,5)/2; }          /* easeInOutQuint */
+function outExpo(t){ return t>=1?1:1-Math.pow(2,-10*t); }
+function inOutExpo(t){ return t===0?0:t===1?1:t<0.5?Math.pow(2,20*t-10)/2:(2-Math.pow(2,-20*t+10))/2; }
+function tween(ms,fn,easing){ return new Promise(function(res){ var t0=performance.now(); (function f(now){ var k=Math.min(1,(now-t0)/ms); fn((easing||function(x){return x;})(k),k); if(k<1) requestAnimationFrame(f); else res(); })(t0); }); }
+function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+/* geometry of the little window in the middle */
+function win(){
+  var W=window.innerWidth,H=window.innerHeight, w=Math.min(W*0.3,360), w2=Math.max(w,Math.min(W*0.62,300)); w=W<700?w2:w;
+  var h=w*1.25; return {top:(H-h)/2,left:(W-w)/2,w:w,h:h,W:W,H:H};
+}
+function setClip(k,from){            /* k: 0 = collapsed line, 1 = window ... handled by two phases below */
+  vwrap.style.clipPath='inset('+from.t.toFixed(1)+'px '+from.r.toFixed(1)+'px '+from.b.toFixed(1)+'px '+from.l.toFixed(1)+'px round '+from.rad.toFixed(1)+'px)';
+}
+function clipFor(g,k){               /* k: 0 collapsed at centre, 1 = window */
+  var cx=g.W/2, cy=g.H/2;
+  return { t:cy-(g.h/2)*k, b:g.H-cy-(g.h/2)*k, l:cx-(g.w/2)*k, r:g.W-cx-(g.w/2)*k, rad:4*k };
+}
+function clipFull(g,k){              /* window -> whole screen */
+  var a=clipFor(g,1); return { t:a.t*(1-k), b:a.b*(1-k), l:a.l*(1-k), r:a.r*(1-k), rad:4*(1-k) };
+}
+
+/* counter */
+var digits=[-1,-1,-1];
+function setCount(n){
+  n=Math.max(0,Math.min(100,Math.round(n)));
+  var s=('000'+n).slice(-3).split('').map(Number);
+  for(var i=0;i<3;i++) if(digits[i]!==s[i]){ digits[i]=s[i]; strips[i].style.transform='translateY(-'+(s[i]*10)+'%)'; }
+}
+strips.forEach(function(s){ s.style.transition='none'; }); setCount(0); void L.offsetWidth; strips.forEach(function(s){ s.style.transition=''; });
+
+/* rapid-fire words */
+var WORDS=['Precision','Cuts','Modern','Styles','Shear','Work','Buzz','Cuts','Fades','Clean','Sharp','Detail','Brayden','King\'s'];
+var wi=-1;
+function flash(i){ wordsEl.textContent=WORDS[i%WORDS.length]; }
+
+/* readiness: page fully loaded and the clip has frames (or a timeout) */
+var ready=false, t0=performance.now();
+function checkReady(){ if(ready) return; var loaded=document.readyState==='complete', v=!clip||vid.readyState>=2||performance.now()-t0>4500; if(loaded&&v) ready=true; }
+window.addEventListener('load',checkReady); vid.addEventListener('loadeddata',checkReady);
+
+function run(){
+  var g=win(); window.addEventListener('resize',function(){ g=win(); });
+  var MIN=reduce?600:2800, shown=0;
+  setClip(0,clipFor(g,0)); L.classList.add('in');
+  var open=reduce?Promise.resolve():tween(1100,function(e){ setClip(e,clipFor(g,e)); },outExpo);
+  if(reduce) setClip(1,clipFor(g,1));
+  return new Promise(function(resolve){
+    var start=performance.now(), p=0;
+    (function step(now){
+      checkReady();
+      var el=now-start, base=Math.min(1,el/MIN), target=ease(base)*(ready?100:90);
+      if(ready&&base>=1) target=100;
+      p+=(target-p)*0.16; if(target-p<0.4&&ready&&base>=1) p=100;
+      setCount(p);
+      var idx=Math.floor(p/7); if(!reduce&&idx!==wi){ wi=idx; flash(idx); }
+      if(p>=100){ open.then(resolve); return; }
+      requestAnimationFrame(step);
+    })(start);
+  });
+}
+
+function outro(){
+  var g=win();
+  L.classList.add('out'); wordsEl.textContent="King's";
+  return wait(reduce?0:250)
+    .then(function(){ return reduce?Promise.resolve():tween(1050,function(e){ setClip(e,clipFull(g,e)); },inOutExpo); })
+    .then(function(){
+      vwrap.style.clipPath='none';
+      var started=false;
+      return tween(reduce?200:900,function(e,k){
+        L.style.transform='translate3d(0,'+(-e*100)+'%,0)'; wordsEl.style.opacity=String(1-Math.min(1,k*2));
+        if(!started&&k>0.28){ started=true; try{ if(typeof playHeroIntro==='function') playHeroIntro(); }catch(err){} }
+      },function(x){ return x<0.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2; });
+    });
+}
+function done(){
+  L.style.display='none'; html.classList.remove('pl-lock');
+  try{ if(typeof lenis!=='undefined') lenis.start(); }catch(e){}
+  try{ vid.pause(); vid.removeAttribute('src'); vid.load(); }catch(e){}
+}
+function begin(){ run().then(outro).then(done).catch(function(err){ try{console.warn('[preloader]',err);}catch(_){} L.style.display='none'; html.classList.remove('pl-lock'); try{ if(typeof lenis!=='undefined') lenis.start(); }catch(e){} try{ if(typeof playHeroIntro==='function') playHeroIntro(); }catch(e){} }); }
+begin();
 })();
 
 </script>
